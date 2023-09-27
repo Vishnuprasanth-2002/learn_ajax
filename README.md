@@ -4,4 +4,7 @@
 
     npx serve app
 
-    
+### learning
+
+    how to handle urls 
+    get values from website
