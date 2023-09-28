@@ -3,7 +3,8 @@ $(document).ready(function() {
   $("#getImg").on("click", function() {
     const selectBreed = $("#dog-list");
     console.log(selectBreed.val());
-    $("body").append('<p id="loading"><span>Loading ...</span></p>');
+    $("#load-div").append('<p id="loading"><span>Loading ...</span></p>');
+    $("#animals img").attr("src", "image/giphy.gif");
 
     getRandomImageOfDog(selectBreed.val());
   });
