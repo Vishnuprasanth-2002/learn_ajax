@@ -1,62 +1,67 @@
-$("#getImg").on("click", function () {
-    const selectBreed = document.querySelector("#dog-list");
-    console.log(selectBreed.value);
-    $("#loading").empty();
+$(document).ready(function() {
+  $("#load-div").append('<p id="load"><span>Loading ...</span></p>');
+  $("#getImg").on("click", function() {
+    const selectBreed = $("#dog-list");
+    console.log(selectBreed.val());
     $("body").append('<p id="loading"><span>Loading ...</span></p>');
-  
-    getRandomImageOfDog(selectBreed.value);
+
+    getRandomImageOfDog(selectBreed.val());
   });
-  
+
   getAllDogsFromApi();
+
   function getAllDogsFromApi() {
-    // https://dog.ceo/api/breeds/list/all
     const url = "https://dog.ceo/api/breeds/list/all";
-    $.ajax(url, {
+    $.ajax({
+      url: url,
       method: "GET",
-      success: function (resp) {
+      success: function(resp) {
         console.log("Api request success");
         const dogsList = Object.keys(resp.message);
         console.log(dogsList);
         appendToSelect(dogsList);
-        //$("#dog-list").html('<img src="'.animal.'"</img>');
       },
-      error: function () {
+      error: function() {
         console.log("Api request error");
       },
-      complete: function () {
+      complete: function() {
         console.log("API request completed");
+        $("#load").remove();
       },
     });
   }
-  
+
   function getRandomImageOfDog(dogBreed) {
-    // https://dog.ceo/api/breed/affenpinscher/images/random
     const url = `https://dog.ceo/api/breed/${dogBreed}/images/random`;
-    $.ajax(url, {
+    $.ajax({
+      url: url,
       method: "GET",
-      success: function (resp) {
+      success: function(resp) {
         console.log("Api request success");
         console.log(resp.message);
-        $("#loading").remove();
         $("#animals img").attr("src", resp.message);
+       
       },
-      error: function () {
+      error: function() {
         console.log("Api request error");
+      },
+      complete: function() {
+        $("#loading").remove();
       },
     });
   }
-  
+
   function appendToSelect(list) {
-    const selectBreed = document.querySelector("#dog-list");
+    const selectBreed = $("#dog-list");
     let i = 1;
     for (let item of list) {
-      const option = document.createElement("option");
-      option.innerHTML = item;
-      option.id = i;
+      const option = $("<option></option>").html(item).attr("id", i);
       i++;
-      selectBreed.appendChild(option);
+      selectBreed.append(option);
     }
   }
+});
+
   // function doMath(num1, num2, cb) {
   //   return cb(num1, num2);
   // }
